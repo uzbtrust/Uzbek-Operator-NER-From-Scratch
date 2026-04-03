@@ -1,0 +1,50 @@
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  min_freq: 2
+  max_seq_len: 128
+  max_word_len: 30
+
+tags:
+  - O
+  - B-PER
+  - I-PER
+  - B-ORG
+  - I-ORG
+  - B-LOC
+  - I-LOC
+  - B-MISC
+  - I-MISC
+
+embeddings:
+  word_dim: 300
+  char_dim: 50
+  lang_dim: 16
+  char_filters: 50
+  char_kernel_size: 3
+  fasttext_en_url: "https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.en.300.vec.gz"
+  fasttext_ru_url: "https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.ru.300.vec.gz"
+  fasttext_dir: embeddings/vectors
+  max_vectors: 500000
+
+model:
+  hidden_size: 256
+  num_layers: 2
+  dropout: 0.5
+  num_langs: 2
+
+training:
+  batch_size: 32
+  lr: 0.001
+  weight_decay: 0.0001
+  max_epochs: 50
+  early_stop_patience: 7
+  scheduler_patience: 3
+  grad_clip: 5.0
+  fp16: true
+  finetune_lr: 0.0001
+
+paths:
+  checkpoints: checkpoints
+  logs: logs
+  results: results

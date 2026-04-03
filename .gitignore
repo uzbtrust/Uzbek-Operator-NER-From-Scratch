@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+data/raw/
+data/processed/
+embeddings/vectors/
+checkpoints/
+logs/
+results/
+*.pt
+*.vec
+*.vec.gz
+.env
