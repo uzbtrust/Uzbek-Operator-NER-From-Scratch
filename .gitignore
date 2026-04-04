@@ -7,7 +7,9 @@ data/processed/
 embeddings/vectors/
 checkpoints/
 logs/
-results/
+results/*
+!results/*.png
+!results/*.json
 *.pt
 *.vec
 *.vec.gz
