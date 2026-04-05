@@ -23,7 +23,7 @@ WIKIANN_TAG_MAP = {
 
 def download_conll(output_dir):
     log.info("Downloading CoNLL-2003...")
-    ds = load_dataset("conll2003", trust_remote_code=True)
+    ds = load_dataset("eriktks/conll2003", trust_remote_code=True)
 
     for split in ["train", "validation", "test"]:
         samples = []
@@ -41,7 +41,7 @@ def download_conll(output_dir):
 
 def download_wikiann(lang, output_dir):
     log.info(f"Downloading WikiANN ({lang})...")
-    ds = load_dataset("wikiann", lang, trust_remote_code=True)
+    ds = load_dataset("unimelb-nlp/wikiann", lang, trust_remote_code=True)
 
     for split in ["train", "validation", "test"]:
         samples = []
