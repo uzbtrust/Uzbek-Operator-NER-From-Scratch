@@ -1,5 +1,3 @@
-import os
-import sys
 import json
 import logging
 import argparse
@@ -20,10 +18,22 @@ WIKIANN_TAG_MAP = {
     5: "B-LOC", 6: "I-LOC"
 }
 
+CONLL_PARQUET = {
+    "train": "https://huggingface.co/datasets/conll2003/resolve/refs%2Fconvert%2Fparquet/conll2003/train/0000.parquet",
+    "validation": "https://huggingface.co/datasets/conll2003/resolve/refs%2Fconvert%2Fparquet/conll2003/validation/0000.parquet",
+    "test": "https://huggingface.co/datasets/conll2003/resolve/refs%2Fconvert%2Fparquet/conll2003/test/0000.parquet",
+}
+
+WIKIANN_PARQUET = "https://huggingface.co/datasets/wikiann/resolve/refs%2Fconvert%2Fparquet/{lang}/{split}/0000.parquet"
+
+
+def _load_parquet(data_files):
+    return load_dataset("parquet", data_files=data_files)
+
 
 def download_conll(output_dir):
-    log.info("Downloading CoNLL-2003...")
-    ds = load_dataset("conll2003", trust_remote_code=True)
+    log.info("Downloading CoNLL-2003 (parquet)...")
+    ds = _load_parquet(CONLL_PARQUET)
 
     for split in ["train", "validation", "test"]:
         samples = []
@@ -40,8 +50,12 @@ def download_conll(output_dir):
 
 
 def download_wikiann(lang, output_dir):
-    log.info(f"Downloading WikiANN ({lang})...")
-    ds = load_dataset("wikiann", lang, trust_remote_code=True)
+    log.info(f"Downloading WikiANN ({lang}) (parquet)...")
+    data_files = {
+        split: WIKIANN_PARQUET.format(lang=lang, split=split)
+        for split in ["train", "validation", "test"]
+    }
+    ds = _load_parquet(data_files)
 
     for split in ["train", "validation", "test"]:
         samples = []
