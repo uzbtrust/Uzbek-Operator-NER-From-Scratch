@@ -49,7 +49,7 @@ def run_evaluation(model, loader, tag_map, device):
     report = classification_report(all_golds, all_preds, output_dict=True)
 
     metrics = {
-        "overall": {"f1": f1, "precision": prec, "recall": rec},
+        "overall": {"f1": float(f1), "precision": float(prec), "recall": float(rec)},
         "per_entity": {}
     }
 
@@ -58,10 +58,10 @@ def run_evaluation(model, loader, tag_map, device):
             continue
         if isinstance(vals, dict):
             metrics["per_entity"][key] = {
-                "precision": vals.get("precision", 0),
-                "recall": vals.get("recall", 0),
-                "f1-score": vals.get("f1-score", 0),
-                "support": vals.get("support", 0),
+                "precision": float(vals.get("precision", 0)),
+                "recall": float(vals.get("recall", 0)),
+                "f1-score": float(vals.get("f1-score", 0)),
+                "support": int(vals.get("support", 0)),
             }
 
     return metrics
