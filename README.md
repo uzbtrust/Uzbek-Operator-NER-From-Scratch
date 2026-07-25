@@ -1,4 +1,4 @@
-# Multilingual NER from Scratch — BiLSTM-CRF
+# Multilingual Operator NER — BiLSTM-CRF
 
 <p align="center">
   <img src="https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" />
@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <strong>A production-ready Named Entity Recognition system built entirely from scratch in PyTorch.</strong><br/>
-  No HuggingFace Transformers. No pretrained BERT. Pure BiLSTM-CRF with a hand-written CRF layer.
+  <strong>A Named Entity Recognition system in pure PyTorch.</strong><br/>
+  No HuggingFace Transformers, no pretrained BERT — a hand-written BiLSTM-CRF instead.
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 
 ## Overview
 
-This project implements a **multilingual NER pipeline** for English and Russian, designed to power entity extraction inside an operator chatbot RAG system. Every component — from the CRF forward algorithm to the Viterbi decoder — is written from scratch. After base training on public datasets, the model is fine-tuned on a synthetic telecom operator domain and reaches **F1 = 1.00** on domain entities while preserving general-purpose performance.
+This project implements a **multilingual NER pipeline** for English and Russian, designed to power entity extraction inside an operator chatbot RAG system. The CRF forward algorithm and Viterbi decoder are custom implementations rather than library calls. After base training on public datasets, the model is fine-tuned on a synthetic telecom operator domain and reaches **F1 = 1.00** on domain entities while preserving general-purpose performance.
 
 ### Entity Types
 
@@ -153,7 +153,7 @@ Base 3-stage training (CoNLL → WikiANN → Merged):
   └───────────────────────┬───────────────────────────┘
                           │
   ┌───────────────────────▼───────────────────────────┐
-  │               CRF Layer (from scratch)            │
+  │               CRF Layer (custom impl.)            │
   │  • Forward algorithm (log-partition via logsumexp)│
   │  • Viterbi decoding (backpointer tracing)         │
   │  • Learnable transition matrix                    │
@@ -394,7 +394,7 @@ Both training notebooks are ready to run on Kaggle T4 × 2 GPUs.
 | Language Embeddings | 16-dim learnable (EN=0, RU=1) |
 | Input Dimension | 300 + 50 + 16 = **366** |
 | Encoder | 2-layer BiLSTM, hidden=256 per direction |
-| CRF | Full from-scratch: forward algo + Viterbi decode |
+| CRF | Custom implementation: forward algo + Viterbi decode |
 | Tags | 9 (BIO scheme): O, B/I-PER, B/I-ORG, B/I-LOC, B/I-MISC |
 | Optimizer | AdamW (lr=1e-3 base → 5e-5 / 1e-5 fine-tune) |
 | Scheduler | ReduceLROnPlateau (patience=3) |
@@ -415,9 +415,9 @@ Both training notebooks are ready to run on Kaggle T4 × 2 GPUs.
 
 ---
 
-## From-Scratch Highlights
+## Implementation Notes
 
-This project deliberately avoids high-level NLP libraries to demonstrate deep understanding:
+This project avoids high-level NLP libraries in favor of hand-written components:
 
 - **CRF Forward Algorithm** — log-space partition function computation using `logsumexp` for numerical stability, with proper masking for variable-length sequences
 - **Viterbi Decoding** — backpointer-based optimal path finding, handling batched sequences with different lengths
