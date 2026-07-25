@@ -18,7 +18,8 @@
   <a href="#-architecture">Architecture</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-operator-domain-fine-tuning">Domain Fine-tuning</a> •
-  <a href="#-rag-integration">RAG</a>
+  <a href="#-rag-integration">RAG</a> •
+  <a href="https://huggingface.co/uzbtrust/uzbek-operator-ner">Trained checkpoint</a>
 </p>
 
 ---
